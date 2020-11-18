@@ -64,7 +64,7 @@ void loop() {
     if(val2>501 && val2<519){
        myservo.write(90);
        delay(100);
-       //Dead Band -- When Joystick resiting, return to neutral position
+       //Dead Band -- When Joystick resting, return to neutral position
       }
     
 
