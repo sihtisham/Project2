@@ -21,8 +21,6 @@ void setup() {
     pinMode(echoPin, INPUT);
     
     j=80;
-    k=50;
-    h=50;
     x=0;
     m=0;
     m2=0;
@@ -64,22 +62,22 @@ void loop() {
         //Move 45 degrees to the right 
         
         myservo.write(45);
-        mystepper.step(m2);
+        myStepper.step(m2);
         delay(p2);
         //Begin adjusting axle to move parallel to the object
         
         myservo.write(0);
-        mystepper.step(m);
+        myStepper.step(m);
         delay(p);
         //Begin merging with original center line
         
         myservo.write(90);
-        mystepper.step(m);
+        myStepper.step(m);
         //complete merge with center line
         
 
         while(x=1){
-            mystepper.step(0);
+            myStepper.step(0);
             delay(50);
           }
 
