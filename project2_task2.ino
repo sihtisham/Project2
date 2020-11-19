@@ -61,6 +61,7 @@ void loop() {
         delay(100);
         myStepper.step(k);
         delay(80);
+        //Bring back servo to 90 deg?
         //When first object is detected, move to the right
       }
     
@@ -69,6 +70,7 @@ void loop() {
         delay(100);
         myStepper.step(k);
         delay(80);
+        //Bring back servo to 90 deg?
         //When second object is detected, move to the left
       }
 
