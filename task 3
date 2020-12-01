@@ -1,0 +1,119 @@
+#include <Servo.h>
+#include <Stepper.h>
+
+const int pingPin = 5; // Trigger Pin of Ultrasonic Sensor
+const int echoPin = 4; // Echo Pin of Ultrasonic Sensor
+
+int j, k, x, n, y, b;
+
+const int stepsPerRevolution = 2048;
+
+Servo myservo;
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+
+
+void setup() {
+    myservo.attach(2);
+    myservo.write(90);
+    myStepper.setSpeed(15);
+
+    pinMode(pingPin, OUTPUT);   
+    pinMode(echoPin, INPUT);
+    
+    j=80;
+    k=3600;
+    x=0;
+    n=0;
+    
+    Serial.begin(9600);
+  }
+
+void loop() {
+    long duration, cm;
+
+    digitalWrite(pingPin, LOW);
+    delayMicroseconds(2);
+   
+    digitalWrite(pingPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(pingPin, LOW);
+      
+    duration = pulseIn(echoPin, HIGH);
+   
+    cm = duration*(0.034/2);
+   
+   
+   
+   //Stepper Motor Instructions 
+
+   int xaxis = analogRead(A3);
+   if(xaxis > 600){
+   b=1;
+   }
+   
+   if (b==1){
+
+    
+    if(cm>20){
+         myStepper.step(j);
+        Serial.println("keep going");
+        //If nothing is close, keep moving 
+      }
+   
+      
+    
+    if(cm<13){
+        myStepper.step(0);
+        x++;
+        n++;
+        y++;
+        Serial.println("object detected");
+      
+        //If object is detected, stop moving and prepare to turn axle
+      }
+
+          
+    //Initiate first turn until the second marker is in sight
+    if(x==1){
+      
+        Serial.println("Turn around the object");
+        myservo.write(165);
+        myStepper.step(k);
+
+        myservo.write(0);
+        myStepper.step(3300);
+       
+        myservo.write(165);
+        myStepper.step(1500);
+
+        myservo.write(90);
+        myStepper.step(80);
+        
+       x=-3;
+       n++;
+       
+        //Bring back servo to 90 deg?
+        //When first object is detected, move to the right
+      }
+
+      
+    
+    if(n==3){
+      while(1){
+            myStepper.step(0);
+            Serial.println("finish");
+     
+
+        n=0;
+        
+        //Bring back servo to 90 deg?
+        //When second object is detected, move to the left
+      }
+
+    
+      
+    
+   }
+   
+  }
+}
